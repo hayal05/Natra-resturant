@@ -1,9 +1,1 @@
-pub mod category;
-pub mod expense;
-pub mod item;
-pub mod raw_material;
-pub mod sale;
-pub mod sale_item;
-pub mod settings;
-pub mod user;
-pub mod waiter;
+// Domain models will be introduced feature-by-feature.
