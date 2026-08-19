@@ -1,5 +1,1 @@
-pub mod conflict;
-pub mod manager;
-pub mod queue;
-
-pub mod turso;
+// Optional synchronization is isolated here. Turso remains disabled until configured.
