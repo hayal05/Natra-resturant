@@ -1,0 +1,45 @@
+@import './variables.css';
+
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; font-family: var(--font); background: var(--surface-soft); color: var(--text); }
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+#app { min-height: 100vh; }
+
+.app-shell { min-height: 100vh; display: flex; }
+.sidebar { width: var(--sidebar-width); background: var(--brand-900); color: #fff; padding: 22px 14px; display: flex; flex-direction: column; }
+.brand { padding: 8px 12px 28px; }
+.brand-title { margin: 0; font-size: 22px; font-weight: 800; letter-spacing: .08em; }
+.brand-subtitle { margin-top: 4px; opacity: .72; font-size: 12px; }
+.nav { display: grid; gap: 6px; }
+.nav button { border: 0; background: transparent; color: rgba(255,255,255,.78); text-align: left; padding: 12px 14px; border-radius: 10px; }
+.nav button:hover, .nav button.active { background: rgba(255,255,255,.12); color: #fff; }
+.sidebar-footer { margin-top: auto; font-size: 12px; opacity: .65; padding: 12px; }
+
+.main { flex: 1; min-width: 0; }
+.topbar { height: 72px; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 28px; }
+.topbar h1 { margin: 0; font-size: 21px; }
+.status { font-size: 13px; color: var(--success); }
+.content { padding: 28px; }
+
+.grid { display: grid; gap: 18px; }
+.stats { grid-template-columns: repeat(4, minmax(0,1fr)); }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; }
+.stat-label { color: var(--text-muted); font-size: 13px; }
+.stat-value { margin-top: 8px; font-size: 27px; font-weight: 800; }
+.section-title { margin: 0 0 16px; font-size: 17px; }
+
+.placeholder { min-height: 280px; display: grid; place-items: center; color: var(--text-muted); border: 1px dashed var(--border); border-radius: 12px; }
+
+@media (max-width: 900px) {
+  .sidebar { width: 210px; }
+  .stats { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+@media (max-width: 650px) {
+  .sidebar { width: 68px; padding: 14px 8px; }
+  .brand-subtitle, .brand-title { display: none; }
+  .nav button { font-size: 0; text-align: center; }
+  .content { padding: 16px; }
+  .topbar { padding: 0 16px; }
+  .stats { grid-template-columns: 1fr; }
+}
