@@ -1,1 +1,2 @@
-// Feature command modules are added here as each feature is implemented.
+pub mod auth;
+pub mod dashboard;

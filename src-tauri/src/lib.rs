@@ -6,31 +6,26 @@ mod services;
 mod sync;
 
 use std::sync::Mutex;
-use tauri::State;
-
-pub struct AppState {
-    pub db_path: Mutex<Option<String>>,
-}
+use database::Database;
 
 #[tauri::command]
-fn app_status() -> &'static str {
-    "local"
-}
+fn app_initialized(db: tauri::State<Mutex<Database>>) -> Result<bool, String> { db.lock().map_err(|_| "Database lock failed".to_string()).and_then(|d| d.has_admin().map_err(Into::into)) }
 
 #[tauri::command]
-fn initialize_database(state: State<'_, AppState>) -> Result<String, String> {
-    let mut path = state.db_path.lock().map_err(|_| "state lock failed")?;
-    if path.is_none() {
-        *path = Some("local restaurant database".to_string());
-    }
-    Ok("initialized".to_string())
-}
+fn create_admin(username: String, password: String, full_name: String, db: tauri::State<Mutex<Database>>) -> Result<(), String> { db.lock().map_err(|_| "Database lock failed".to_string())?.create_admin(&username, &password, &full_name).map_err(Into::into) }
+
+#[tauri::command]
+fn login(username: String, password: String, db: tauri::State<Mutex<Database>>) -> Result<bool, String> { db.lock().map_err(|_| "Database lock failed".to_string())?.verify_login(&username, &password).map_err(Into::into) }
+
+#[tauri::command]
+fn dashboard_summary(db: tauri::State<Mutex<Database>>) -> Result<serde_json::Value, String> { db.lock().map_err(|_| "Database lock failed".to_string())?.dashboard_summary().map_err(Into::into) }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    let database = Database::open().expect("failed to initialize local database");
     tauri::Builder::default()
-        .manage(AppState { db_path: Mutex::new(None) })
-        .invoke_handler(tauri::generate_handler![app_status, initialize_database])
+        .manage(Mutex::new(database))
+        .invoke_handler(tauri::generate_handler![app_initialized, create_admin, login, dashboard_summary])
         .run(tauri::generate_context!())
-        .expect("error while running NATRA Restaurant Management");
+        .expect("error while running application");
 }

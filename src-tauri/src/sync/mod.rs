@@ -1,1 +1,1 @@
-// Optional synchronization is isolated here. Turso remains disabled until configured.
+// Optional Turso synchronization boundary. Local operation does not depend on Turso.

@@ -1,1 +1,2 @@
-// Local database modules will be added during the database foundation phase.
+pub mod connection;
+pub use connection::Database;

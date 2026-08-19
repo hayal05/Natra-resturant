@@ -1,1 +1,1 @@
-// Domain models will be introduced feature-by-feature.
+// Domain models will be added here as each feature is implemented.

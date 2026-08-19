@@ -1,1 +1,1 @@
-// Business services will be introduced after the local database foundation.
+// Service modules are added per feature.

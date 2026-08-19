@@ -1,14 +1,8 @@
 {
   "name": "natra-restaurant",
-  "version": "0.1.0",
   "private": true,
+  "version": "0.1.0",
   "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build"
-  },
-  "devDependencies": {
-    "@vitejs/plugin-basic-ssl": "latest",
-    "vite": "latest"
-  }
+  "scripts": { "dev": "vite", "build": "vite build" },
+  "devDependencies": { "@vitejs/plugin-basic-ssl": "latest", "vite": "latest" }
 }
