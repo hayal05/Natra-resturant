@@ -1,1 +1,2 @@
-// Domain models will be added here as each feature is implemented.
+pub mod waiter;
+pub use waiter::Waiter;
