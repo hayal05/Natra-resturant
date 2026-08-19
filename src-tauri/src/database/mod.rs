@@ -1,4 +1,1 @@
-pub mod connection;
-pub mod migrations;
-pub mod schema;
-pub mod transactions;
+// Local database modules will be added during the database foundation phase.
