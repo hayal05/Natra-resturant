@@ -19,6 +19,9 @@ pub fn run() {
             commands::auth::create_admin,
             commands::auth::login,
             commands::dashboard::dashboard_summary,
+            commands::waiters::list_waiters,
+            commands::waiters::add_waiter,
+            commands::waiters::remove_waiter,
         ])
         .run(tauri::generate_context!())
         .expect("error while running application");
