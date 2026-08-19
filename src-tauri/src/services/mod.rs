@@ -1,1 +1,1 @@
-// Service modules are added per feature.
+pub mod waiter_service;
