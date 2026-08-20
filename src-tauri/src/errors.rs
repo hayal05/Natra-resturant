@@ -12,3 +12,15 @@ impl From<rusqlite::Error> for AppError {
         Self { message: e.to_string() }
     }
 }
+
+impl From<String> for AppError {
+    fn from(message: String) -> Self {
+        Self { message }
+    }
+}
+
+impl From<&str> for AppError {
+    fn from(message: &str) -> Self {
+        Self { message: message.to_owned() }
+    }
+}
