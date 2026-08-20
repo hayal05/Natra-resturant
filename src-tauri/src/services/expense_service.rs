@@ -5,7 +5,7 @@ fn validation_error(message: &str) -> crate::errors::AppError {
 }
 
 pub fn list_expenses(db: &Database) -> AppResult<Vec<Expense>> {
-    let conn = db.connection();
+    let conn = &db.conn;
     let mut stmt = conn.prepare(
         "SELECT id, description, category, amount, created_at
          FROM expenses
@@ -36,7 +36,7 @@ pub fn add_expense(db: &Database, input: NewExpense) -> AppResult<Expense> {
         return Err(validation_error("Expense amount must be greater than zero"));
     }
 
-    let conn = db.connection();
+    let conn = &db.conn;
     conn.execute(
         "INSERT INTO expenses (description, category, amount, note)
          VALUES (?1, ?2, ?3, ?4)",
@@ -66,7 +66,7 @@ pub fn add_expense(db: &Database, input: NewExpense) -> AppResult<Expense> {
 }
 
 pub fn delete_expense(db: &Database, id: i64) -> AppResult<()> {
-    let conn = db.connection();
+    let conn = &db.conn;
     let affected = conn.execute("DELETE FROM expenses WHERE id = ?1", [id])?;
     if affected == 0 {
         return Err(validation_error("Expense not found"));
