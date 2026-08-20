@@ -1,6 +1,7 @@
 use rusqlite::{params, Connection};
 use argon2::{Argon2, PasswordHash, PasswordHasher, PasswordVerifier};
-use argon2::password_hash::{rand_core::OsRng, SaltString};
+use argon2::password_hash::SaltString;
+use rand::rngs::OsRng;
 use std::path::PathBuf;
 use crate::models::Waiter;
 
