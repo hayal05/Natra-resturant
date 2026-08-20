@@ -20,8 +20,23 @@ impl Database {
 
     fn migrate(&self) -> Result<(), rusqlite::Error> {
         self.conn.execute_batch(include_str!("../../../migrations/001_initial.sql"))?;
+        self.ensure_column("raw_materials", "unit_cost", "REAL NOT NULL DEFAULT 0")?;
+        self.ensure_column("expenses", "category", "TEXT NOT NULL DEFAULT 'Other'")?;
+        self.ensure_column("expenses", "note", "TEXT")?;
         Ok(())
     }
+
+    fn ensure_column(&self, table: &str, column: &str, definition: &str) -> Result<(), rusqlite::Error> {
+        let sql = format!("SELECT COUNT(*) FROM pragma_table_info('{}') WHERE name=?1", table);
+        let exists: i64 = self.conn.query_row(&sql, [column], |row| row.get(0))?;
+        if exists == 0 {
+            let alter = format!("ALTER TABLE {} ADD COLUMN {} {}", table, column, definition);
+            self.conn.execute(&alter, [])?;
+        }
+        Ok(())
+    }
+
+    pub fn connection(&self) -> &Connection { &self.conn }
 
     pub fn has_admin(&self) -> Result<bool, rusqlite::Error> {
         self.conn.query_row("SELECT EXISTS(SELECT 1 FROM users WHERE is_admin=1)", [], |r| r.get(0))
