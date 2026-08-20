@@ -1,17 +1,24 @@
-use crate::{database::Database, errors::AppResult, models::{Expense, NewExpense}, services::expense_service};
+use crate::{database::Database, errors::{AppError, AppResult}, models::{Expense, NewExpense}, services::expense_service};
 use std::sync::Mutex;
+
+fn lock_error() -> AppError {
+    AppError { message: "Database lock failed".into() }
+}
 
 #[tauri::command]
 pub fn list_expenses(db: tauri::State<'_, Mutex<Database>>) -> AppResult<Vec<Expense>> {
-    expense_service::list_expenses(&db.lock().map_err(|_| "database lock poisoned")?)
+    let db = db.lock().map_err(|_| lock_error())?;
+    expense_service::list_expenses(&db)
 }
 
 #[tauri::command]
 pub fn add_expense(db: tauri::State<'_, Mutex<Database>>, input: NewExpense) -> AppResult<Expense> {
-    expense_service::add_expense(&db.lock().map_err(|_| "database lock poisoned")?, input)
+    let db = db.lock().map_err(|_| lock_error())?;
+    expense_service::add_expense(&db, input)
 }
 
 #[tauri::command]
 pub fn delete_expense(db: tauri::State<'_, Mutex<Database>>, id: i64) -> AppResult<()> {
-    expense_service::delete_expense(&db.lock().map_err(|_| "database lock poisoned")?, id)
+    let db = db.lock().map_err(|_| lock_error())?;
+    expense_service::delete_expense(&db, id)
 }
