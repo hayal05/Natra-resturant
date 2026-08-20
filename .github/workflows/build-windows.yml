@@ -16,8 +16,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
 
-      - name: Install frontend dependencies
+      - name: Install frontend and Tauri CLI dependencies
         run: npm install
 
       - name: Build frontend
@@ -26,16 +27,13 @@ jobs:
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Install Tauri CLI
-        run: cargo install tauri-cli --version '^2'
-
       - name: Generate application icons
         working-directory: src-tauri
-        run: cargo tauri icon icons/natra.svg
+        run: npx --no-install tauri icon icons/natra.svg
 
       - name: Build Windows application
-        run: cargo tauri build
         working-directory: src-tauri
+        run: npx --no-install tauri build
 
       - name: Upload Windows installers
         uses: actions/upload-artifact@v4
