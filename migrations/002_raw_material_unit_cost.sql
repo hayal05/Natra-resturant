@@ -1,0 +1,1 @@
+ALTER TABLE raw_materials ADD COLUMN unit_cost REAL NOT NULL DEFAULT 0;
