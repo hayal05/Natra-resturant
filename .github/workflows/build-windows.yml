@@ -29,6 +29,10 @@ jobs:
       - name: Install Tauri CLI
         run: cargo install tauri-cli --version '^2'
 
+      - name: Generate application icons
+        working-directory: src-tauri
+        run: cargo tauri icon icons/natra.svg
+
       - name: Build Windows application
         run: cargo tauri build
         working-directory: src-tauri
