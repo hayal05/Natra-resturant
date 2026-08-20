@@ -1,0 +1,2 @@
+ALTER TABLE expenses ADD COLUMN category TEXT NOT NULL DEFAULT 'Other';
+ALTER TABLE expenses ADD COLUMN note TEXT;
